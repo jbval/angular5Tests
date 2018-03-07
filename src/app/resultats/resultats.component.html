@@ -1,0 +1,12 @@
+<ul>
+  <li *ngFor="let resultat of resultats">
+    {{resultat.Joueur | uppercase}} - {{resultat.Points}}
+   
+  </li>
+</ul> 
+
+<!-- <ag-grid-angular style="height: 115px;" class="ag-theme-fresh"
+                [rowData]="resultats"
+                [columnDefs]="columnDefs" groupHeaders enableSorting
+                enableFilter>
+</ag-grid-angular> -->
