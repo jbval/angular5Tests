@@ -1,12 +1,20 @@
-<ul>
-  <li *ngFor="let resultat of resultats">
-    {{resultat.Joueur | uppercase}} - {{resultat.Points}}
-   
-  </li>
-</ul> 
+<select  (change)="refreshResultats($event.target.value)">
+<option *ngFor="let tournoi of tournois" ng-value="tournoi" >{{tournoi}}</option>
+</select>
 
-<!-- <ag-grid-angular style="height: 115px;" class="ag-theme-fresh"
-                [rowData]="resultats"
-                [columnDefs]="columnDefs" groupHeaders enableSorting
-                enableFilter>
-</ag-grid-angular> -->
+<table class="table table-striped table-hover">
+  <thead >
+    <th scope="col">Classement</th>
+    <th scope="col">Nom</th>
+    <th scope="col">Club</th>
+    <th scope="col">Points</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let resultat of resultatsFiltered;index as classement">
+      <td>{{classement+1}}</td>
+        <td>{{resultat.Joueur | uppercase}}</td>
+        <td>{{resultat.Club}}</td>
+        <td>{{resultat.Points}}</td>
+    </tr>
+  </tbody>
+</table>
