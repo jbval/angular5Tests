@@ -1,6 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { Resultat } from '../Resultats';
-import { ColumnApi, GridApi, GridOptions } from "ag-grid/main";
+import {
+  Component,
+  OnInit
+} from '@angular/core';
+import {
+  Resultat
+} from '../Resultats';
+import {
+  ColumnApi,
+  GridApi,
+  GridOptions
+} from "ag-grid/main";
 import * as _ from "underscore";
 
 @Component({
@@ -16,8 +25,7 @@ export class ResultatsComponent implements OnInit {
 
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
 
   refreshResultats: Function = (selectedTournoi) => {
@@ -25,51 +33,54 @@ export class ResultatsComponent implements OnInit {
     if (selectedTournoi === "TOUS") {
       this.resultatsFiltered = this.resultats;
     } else {
-      this.resultatsFiltered = _.where(this.resultats, { Tournoi: selectedTournoi });
+      this.resultatsFiltered = _.where(this.resultats, {
+        Tournoi: selectedTournoi
+      });
     }
-    var joueursGroupes = _.groupBy(this.resultatsFiltered, "Joueur");
+    var joueursGroupes = _.groupBy(this.resultatsFiltered, "Licence");
     this.resultatsFiltered = [];
-    _.each(joueursGroupes, (joueursParNom, joueurParNom) => {
+    _.each(joueursGroupes, (joueursParNom, numLicence) => {
       var currentJoueur = joueursParNom[0];
       var pointsTotalJoueur = joueursParNom.map(j => j.Points);
       var sumJoueur = _.reduce(pointsTotalJoueur, (memo: number, joueur: number) => {
         return memo + joueur;
       });
-      this.resultatsFiltered.push({ Joueur: joueurParNom, Points: sumJoueur, Club: currentJoueur.Club, Tournoi: selectedTournoi })
+      var joueurConsolide: Resultat = {
+        NomJoueur: currentJoueur.NomJoueur,
+        Points: sumJoueur,
+        Club: currentJoueur.Club,
+        Tournoi: selectedTournoi,
+        Licence:currentJoueur.Licence
+      };
+      this.resultatsFiltered.push(joueurConsolide);
     });
-    this.resultatsFiltered=_.sortBy(this.resultatsFiltered,r=>r.Points).reverse();
+    this.resultatsFiltered = _.sortBy(this.resultatsFiltered, r => r.Points).reverse();
 
   };
 
   resultatsFiltered: Resultat[];
 
   tournois: string[];
-  resultats: Resultat[] = [
-    {
-      Joueur: 'Joueur1',
+  resultats: Resultat[] = [{
+      NomJoueur: 'Joueur1',
+      Licence: '123456',
       Tournoi: 'Tournoi1',
       Points: 10,
       Club: 'ATR'
     },
     {
-      Joueur: 'Joueur2',
+      NomJoueur: 'Joueur2',
       Tournoi: 'Tournoi1',
+      Licence: '123457',
       Points: 5,
       Club: 'ATR'
     },
     {
-      Joueur: 'Joueur2',
+      NomJoueur: 'Joueur2',
       Tournoi: 'Tournoi2',
+      Licence: '123457',
       Points: 10,
       Club: 'ATR'
     }
   ];
-
-  // columnDefs=[
-
-  //   {headerName: "Joueur", field: "Joueur"},
-  //   {headerName: "Tournoi", field: "Tournoi"},
-  //   {headerName: "Points", field: "Points"},
-  //   {headerName: "Club", field: "Club"}
-  // ];
 }

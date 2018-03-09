@@ -5,14 +5,16 @@
 <table class="table table-striped table-hover">
   <thead >
     <th scope="col">Classement</th>
-    <th scope="col">Nom</th>
+    <th scope="col">Nom/Prénom</th>
+    <th scope="col">Licence</th>
     <th scope="col">Club</th>
     <th scope="col">Points</th>
   </thead>
   <tbody>
     <tr *ngFor="let resultat of resultatsFiltered;index as classement">
       <td>{{classement+1}}</td>
-        <td>{{resultat.Joueur | uppercase}}</td>
+        <td>{{resultat.NomJoueur | uppercase}}</td>
+        <td>{{resultat.Licence}}</td>
         <td>{{resultat.Club}}</td>
         <td>{{resultat.Points}}</td>
     </tr>
