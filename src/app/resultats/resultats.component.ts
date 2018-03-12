@@ -11,6 +11,7 @@ import {
   GridOptions
 } from "ag-grid/main";
 import * as _ from "underscore";
+import {ResultatsService} from "../resultats.service";
 
 @Component({
   selector: 'app-resultats',
@@ -19,15 +20,23 @@ import * as _ from "underscore";
 })
 export class ResultatsComponent implements OnInit {
 
-  constructor() {
-    this.tournois = _.union(["TOUS"], _.uniq(_.map(this.resultats, (r) => r.Tournoi)));
-    this.refreshResultats("TOUS");
+  constructor(private resultatsService :ResultatsService ) {
+  
 
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.fetchResultats();
+  }
 
-
+  fetchResultats():void{
+      this.resultatsService.getResultats().subscribe(resultat=>{
+        this.resultats=resultat;
+        this.tournois = _.union(["TOUS"], _.uniq(_.map(this.resultats, (r) => r.Tournoi)));
+        this.refreshResultats("TOUS");
+      });
+      
+  };
   refreshResultats: Function = (selectedTournoi) => {
 
     if (selectedTournoi === "TOUS") {
@@ -61,26 +70,5 @@ export class ResultatsComponent implements OnInit {
   resultatsFiltered: Resultat[];
 
   tournois: string[];
-  resultats: Resultat[] = [{
-      NomJoueur: 'Joueur1',
-      Licence: '123456',
-      Tournoi: 'Tournoi1',
-      Points: 10,
-      Club: 'ATR'
-    },
-    {
-      NomJoueur: 'Joueur2',
-      Tournoi: 'Tournoi1',
-      Licence: '123457',
-      Points: 5,
-      Club: 'ATR'
-    },
-    {
-      NomJoueur: 'Joueur2',
-      Tournoi: 'Tournoi2',
-      Licence: '123457',
-      Points: 10,
-      Club: 'ATR'
-    }
-  ];
+  resultats: Resultat[] ;
 }

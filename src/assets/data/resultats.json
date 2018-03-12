@@ -1,0 +1,22 @@
+[{
+    "NomJoueur": "Joueur1",
+    "Licence": "123456",
+    "Tournoi": "Tournoi1",
+    "Points": 10,
+    "Club": "ATR"
+  },
+  {
+    "NomJoueur": "Joueur2",
+    "Tournoi": "Tournoi1",
+    "Licence": "123457",
+    "Points": 5,
+    "Club": "ATR"
+  },
+  {
+    "NomJoueur": "Joueur2",
+    "Tournoi": "Tournoi2",
+    "Licence": "123457",
+    "Points": 10,
+    "Club": "ATR"
+  }
+  ]
