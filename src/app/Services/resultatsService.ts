@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Resultat } from './Resultats';
-import {Observable} from "rxjs/Observable";
+import { Resultat } from '../Models/ResultatsVO';
+import {Observable} from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -8,13 +8,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 @Injectable()
 export class ResultatsService {
 
-  constructor( private http: HttpClient) { 
+  constructor( private http: HttpClient) {
 
   }
 
- 
-  getResultats(): Observable<Resultat[]> {
-      return this.http.get<Resultat[]>("/assets/data/resultats.json")
+   getResultats(): Observable<Resultat[]> {
+      return this.http.get<Resultat[]>('/assets/data/resultats.json')
       .pipe(
         catchError(this.handleError('getResultats', []))
       );
