@@ -13,6 +13,7 @@ import { ResultatsService } from '../../Services/resultats.service';
 export class ResultatsComponent implements OnInit {
   resultatsFiltered: ResultatModel[];
   tournois: string[];
+  selectedTournoi:string;
   private resultats: ResultatModel[];
 
   constructor(private resultatsServiceDependency: ResultatsService) {
@@ -35,6 +36,7 @@ export class ResultatsComponent implements OnInit {
   }
 
   public refreshResultats(selectedTournoi: string): void {
+    this.selectedTournoi=selectedTournoi;
     if (selectedTournoi === 'TOUS') {
       this.resultatsFiltered = this.resultats;
     } else {

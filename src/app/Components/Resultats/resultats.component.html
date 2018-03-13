@@ -1,6 +1,9 @@
-<select  (change)="refreshResultats($event.target.value)">
-<option *ngFor="let tournoi of tournois" ng-value="tournoi" >{{tournoi}}</option>
-</select>
+
+<div class="btn-group btn-group-toggle mb-2" data-toggle="buttons">
+  <label class="btn btn-secondary" [ngClass]="{active:tournoi==selectedTournoi}" *ngFor="let tournoi of tournois">
+    <input type="radio" name="options" id="[tournoi]" autocomplete="off" checked (click)="refreshResultats(tournoi)"> {{tournoi}}
+  </label>
+  </div>
 
 <table class="table table-striped table-hover">
   <thead >
