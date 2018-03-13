@@ -15,7 +15,7 @@
   </thead>
   <tbody>
     <tr *ngFor="let resultat of resultatsFiltered;index as classement">
-      <td>{{classement+1}}</td>
+        <td><i class="fa fa-trophy" [ngClass]="{gold:classement==0,silver:classement==1,bronze:classement==2}" *ngIf="classement<3"></i> {{classement+1}}</td>
         <td>{{resultat.NomJoueur | uppercase}}</td>
         <td>{{resultat.Licence}}</td>
         <td>{{resultat.Club}}</td>
