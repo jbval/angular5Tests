@@ -1,4 +1,4 @@
-export class Resultat {
+export class ResultatModel {
   NomJoueur: string;
   Licence: string;
   Tournoi: string;

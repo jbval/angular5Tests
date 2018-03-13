@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Resultat } from '../../Models/ResultatsVO';
+import { ResultatModel } from '../../Models/resultat.model';
 import { ColumnApi, GridApi, GridOptions } from 'ag-grid/main';
 import * as _ from 'underscore';
-import { ResultatsService } from '../../Services/resultatsService';
+import { ResultatsService } from '../../Services/resultats.service';
 
 @Component({
   selector: 'app-resultats',
@@ -11,17 +11,19 @@ import { ResultatsService } from '../../Services/resultatsService';
 })
 
 export class ResultatsComponent implements OnInit {
-  resultatsFiltered: Resultat[];
-
+  resultatsFiltered: ResultatModel[];
   tournois: string[];
-  resultats: Resultat[];
-  constructor(private resultatsServiceDependency: ResultatsService) {}
+  private resultats: ResultatModel[];
+
+  constructor(private resultatsServiceDependency: ResultatsService) {
+
+  }
 
   ngOnInit():void {
     this.fetchResultats();
   }
 
-  fetchResultats(): void {
+  private fetchResultats():void {
     this.resultatsServiceDependency.getResultats().subscribe(resultat => {
       this.resultats = resultat;
       this.tournois = _.union(
@@ -31,6 +33,7 @@ export class ResultatsComponent implements OnInit {
       this.refreshResultats('TOUS');
     });
   }
+
   public refreshResultats(selectedTournoi: string): void {
     if (selectedTournoi === 'TOUS') {
       this.resultatsFiltered = this.resultats;
@@ -45,20 +48,21 @@ export class ResultatsComponent implements OnInit {
       const currentJoueur = joueursParNom[0];
       const pointsTotalJoueur = joueursParNom.map(j => j.Points);
       const sumJoueur = _.reduce(
-        pointsTotalJoueur,
-        (memo: number, joueur: number) => {
-          return memo + joueur;
-        }
+          pointsTotalJoueur,
+          (memo: number, joueur: number) => {
+            return memo + joueur;
+          }
       );
-      const joueurConsolide: Resultat = {
-        NomJoueur: currentJoueur.NomJoueur,
-        Points: sumJoueur,
-        Club: currentJoueur.Club,
-        Tournoi: selectedTournoi,
-        Licence: currentJoueur.Licence
+      const joueurConsolide: ResultatModel = {
+          NomJoueur: currentJoueur.NomJoueur,
+          Points: sumJoueur,
+          Club: currentJoueur.Club,
+          Tournoi: selectedTournoi,
+          Licence: currentJoueur.Licence
       };
       this.resultatsFiltered.push(joueurConsolide);
     });
+
     this.resultatsFiltered = _.sortBy(
       this.resultatsFiltered,
       r => r.Points

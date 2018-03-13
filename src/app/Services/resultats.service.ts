@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Resultat } from '../Models/ResultatsVO';
+import { ResultatModel } from '../Models/resultat.model';
 import {Observable} from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -12,8 +12,8 @@ export class ResultatsService {
 
   }
 
-   getResultats(): Observable<Resultat[]> {
-      return this.http.get<Resultat[]>('/assets/data/resultats.json')
+   getResultats(): Observable<ResultatModel[]> {
+      return this.http.get<ResultatModel[]>('/assets/data/resultats.json')
       .pipe(
         catchError(this.handleError('getResultats', []))
       );
