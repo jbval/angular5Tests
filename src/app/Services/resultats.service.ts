@@ -4,10 +4,10 @@ import {Observable} from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import * as _ from 'underscore';
 
 @Injectable()
 export class ResultatsService {
+  private urlDocGoogle:string='https://spreadsheets.google.com/feeds/list/15ytgQiUCdIgBDverpk9o3s786va4DREBPuZweCpyUjM/od6/public/values?alt=json';
 
   constructor( private http: HttpClient) {
 
@@ -21,27 +21,17 @@ export class ResultatsService {
     resultat.Tournoi=row['gsx$tournoi']['$t'];
     return resultat;
   };
-   getResultats(): Observable<ResultatModel[]> {
 
-
-
-var resultatsFromSheet=this.http.get('https://spreadsheets.google.com/feeds/list/15ytgQiUCdIgBDverpk9o3s786va4DREBPuZweCpyUjM/od6/public/values?alt=json')
-.pipe(
-  map((rows,idx)=>{
-    var entries=rows['feed']['entry'];
-    var items=_.map(entries,e=>this.parseRow(e));
-   return items;
-  })
-);
-
-return resultatsFromSheet;
-
-
-
-      // return this.http.get<ResultatModel[]>('/assets/data/resultats.json')
-      // .pipe(
-      //   catchError(this.handleError('getResultats', []))
-      // );
+  getResultats(): Observable<ResultatModel[]> {
+    var resultatsFromSheet=this.http.get(this.urlDocGoogle)
+    .pipe(
+      map((rows,idx)=>{
+        var entries=rows['feed']['entry'];
+        var items=entries.map(e=>this.parseRow(e));
+        return items;
+      })
+    );
+    return resultatsFromSheet;
   }
 
 /**
