@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ResultatModel } from '../../Models/resultat.model';
-import { ColumnApi, GridApi, GridOptions } from 'ag-grid/main';
+// import { ColumnApi, GridApi, GridOptions } from 'ag-grid/main';
 import * as _ from 'underscore';
 import { ResultatsService } from '../../Services/resultats.service';
 
@@ -13,7 +13,7 @@ import { ResultatsService } from '../../Services/resultats.service';
 export class ResultatsComponent implements OnInit {
   resultatsFiltered: ResultatModel[];
   tournois: Set<string>;
-  selectedTournoi:string;
+  selectedTournoi: string;
   private resultats: ResultatModel[];
 
   /**
@@ -26,27 +26,27 @@ export class ResultatsComponent implements OnInit {
 /**
  * Initialisation du composant
  */
-  ngOnInit():void {
+  ngOnInit(): void {
     this.initResultats();
   }
 /**
  * Récupère l'ensemble des résultats tous tournois confondus
  */
-  private initResultats():void {
+  private initResultats(): void {
     this.resultatsServiceDependency.getResultats().subscribe(resultat => {
       this.resultats = resultat;
-      
-      this.tournois =new Set(['TOUS'].concat(this.resultats.map( r => r.Tournoi)));
+
+      this.tournois = new Set(['TOUS'].concat(this.resultats.map( r => r.Tournoi)));
       this.refreshResultats('TOUS');
     });
   }
-  
+
 /**
  * Rafraichi la liste des résultats en fonction du tournoi courant
  * @param selectedTournoi tournoi sélectionné
  */
   public refreshResultats(selectedTournoi: string): void {
-    this.selectedTournoi=selectedTournoi;
+    this.selectedTournoi = selectedTournoi;
     if (selectedTournoi === 'TOUS') {
       this.resultatsFiltered = this.resultats;
     } else {
@@ -57,18 +57,18 @@ export class ResultatsComponent implements OnInit {
     const joueursGroupes = _.groupBy(this.resultatsFiltered, 'Licence');
     this.resultatsFiltered = [];
     _.each(joueursGroupes, (joueursParNom, numLicence) => {
-      this.fillResultatsFiltre(joueursParNom,numLicence,selectedTournoi);
+      this.fillResultatsFiltre(joueursParNom, numLicence, selectedTournoi);
     });
 
-    
+
     this.resultatsFiltered = _.sortBy(
       this.resultatsFiltered,
       r => r.Points
     ).reverse();
   }
 
-  private fillResultatsFiltre(joueursParNom:ResultatModel[],numLicence:string,selectedTournoi:string):void{
-    const currentJoueur:ResultatModel = joueursParNom[0];
+  private fillResultatsFiltre(joueursParNom: ResultatModel[], numLicence: string, selectedTournoi: string): void {
+    const currentJoueur: ResultatModel = joueursParNom[0];
     const pointsTotalJoueur = joueursParNom.map(j => j.Points);
     const sumJoueur = pointsTotalJoueur.reduce(
                         (memo: number, joueur: number) => {
